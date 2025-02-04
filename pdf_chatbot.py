@@ -13,8 +13,8 @@ import os
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # Page configuration
-st.set_page_config(page_title="Chat with PDF", page_icon="📚")
-st.title("Chat with your PDF 📚")
+st.set_page_config(page_title="Chat with PDF", page_icon="👽")
+st.title("Ask your friendly alien any question on your PDF 👽")
 
 # Initialize session state variables
 if "conversation" not in st.session_state:
@@ -118,8 +118,8 @@ if st.session_state.processComplete:
                 response = st.session_state.conversation({
                     "question": user_question
                 })
-                st.session_state.chat_history.append(("user", "🧑‍💻", user_question))
-                st.session_state.chat_history.append(("Bot", "👽", response["answer"]))
+                st.session_state.chat_history.append("user", "🧑‍💻", user_question)
+                st.session_state.chat_history.append("Bot", "👽", response["answer"])
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
 
