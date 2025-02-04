@@ -125,7 +125,7 @@ if st.session_state.processComplete:
 
     # Display chat history
     for role, avatar, message in st.session_state.chat_history:
-        with st.chat_message(role, avatar):
+        with st.chat_message(role, avatar=avatar):
             st.write(message)
 
 # Display initial instructions
