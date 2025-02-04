@@ -113,9 +113,9 @@ with st.sidebar:
 # Main chat interface
 if st.session_state.processComplete:
     user_question = st.chat_input("Ask any question about your Document(s)...")
-    st.session_state.chat_history.append(("user", "🧑‍💻", user_question)) # add question without waiting for answers
-
+   
     if user_question:
+        st.session_state.chat_history.append(("user", "🧑‍💻", user_question)) # add question without waiting for answers
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
