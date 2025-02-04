@@ -117,6 +117,8 @@ if st.session_state.processComplete:
     if user_question:
         user_role = "User"
         user_avatar = "🧑‍💻"
+        alien_role = "Alien"
+        alien_avatar = "👽"
         st.session_state.chat_history.append((user_role, user_avatar, user_question)) # add question without waiting for answers
         with st.chat_message(user_role, avatar=user_avatar):
             st.write(user_question)
@@ -126,14 +128,16 @@ if st.session_state.processComplete:
                 response = st.session_state.conversation({
                     "question": user_question
                 })
-                st.session_state.chat_history.append(("Alien", "👽", response["answer"]))
+                st.session_state.chat_history.append((alien_role, alien_avatar, response["answer"]))
+                with st.chat_message(alien_role, avatar=alien_avatar):
+                    st.write(response["answer"])
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
 
-    # Display chat history
-    for role, avatar, message in st.session_state.chat_history:
-        with st.chat_message(role, avatar=avatar):
-            st.write(message)
+    # # Display chat history
+    # for role, avatar, message in st.session_state.chat_history:
+    #     with st.chat_message(role, avatar=avatar):
+    #         st.write(message)
 
 # Display initial instructions
 else:
