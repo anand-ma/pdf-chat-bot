@@ -118,8 +118,8 @@ if st.session_state.processComplete:
                 response = st.session_state.conversation({
                     "question": user_question
                 })
-                st.session_state.chat_history.append(("You", user_question))
-                st.session_state.chat_history.append(("Bot", response["answer"]))
+                st.session_state.chat_history.append(("user", user_question))
+                st.session_state.chat_history.append(("ai", response["answer"]))
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
 
