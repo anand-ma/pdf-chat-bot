@@ -13,14 +13,14 @@ import os
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # Page configuration
-st.set_page_config(page_title="Chat with PDF", page_icon="👽")
-st.title("Ask your friendly alien any question on your PDF 👽")
+st.set_page_config(page_title="Chat with PDF", page_icon=":alien:")
+st.title("Ask Friendly Alien - PDF chat 👽")
 
 # Initialize session state variables
 if "conversation" not in st.session_state:
     st.session_state.conversation = None
 if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+    st.session_state.chat_history = []  
 if "processComplete" not in st.session_state:
     st.session_state.processComplete = None
 
@@ -46,8 +46,10 @@ def get_conversation_chain(vectorstore):
     llm = ChatOpenAI(temperature=0.7, model_name='gpt-4o')
     
     template = """You are a helpful AI assistant that helps users understand their PDF documents.
+    You are a alien and add some funny alien emojis and witty lines to your messages.
     Use the following pieces of context to answer the question at the end.
-    If you don't know the answer, just say that you don't know, don't try to make up an answer.
+    If you don't know the answer, just say that you don't know in a funny way, answer differently everytime, don't try to make up an answer.
+    
     
     {context}
     
@@ -110,15 +112,15 @@ with st.sidebar:
 
 # Main chat interface
 if st.session_state.processComplete:
-    user_question = st.chat_input("Ask a question about your documents:")
-    
+    user_question = st.chat_input("Ask any question about your Document(s)...")
+    st.session_state.chat_history.append(("user", "🧑‍💻", user_question)) # add question without waiting for answers
+
     if user_question:
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
                     "question": user_question
                 })
-                st.session_state.chat_history.append(("user", "🧑‍💻", user_question))
                 st.session_state.chat_history.append(("Bot", "👽", response["answer"]))
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
@@ -130,4 +132,4 @@ if st.session_state.processComplete:
 
 # Display initial instructions
 else:
-    st.write("👈 Upload your PDFs in the sidebar to get started!")
+    st.write("👈 Upload your PDF(s) in the sidebar to get started!")
