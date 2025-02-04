@@ -104,7 +104,7 @@ with st.sidebar:
         accept_multiple_files=True
     )
     
-    if st.button("Process") and pdf_docs:
+    if pdf_docs:
         with st.spinner("Processing your PDFs..."):
             success = process_docs(pdf_docs)
             if success:
