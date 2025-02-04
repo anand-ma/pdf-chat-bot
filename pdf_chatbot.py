@@ -95,6 +95,11 @@ def process_docs(pdf_docs):
         st.error(f"An error occurred during processing: {str(e)}")
         return False
 
+def display_message():    # Display chat history
+    for role, avatar, message in st.session_state.chat_history:
+        with st.chat_message(role, avatar=avatar):
+            st.write(message)
+
 # Sidebar for PDF upload
 with st.sidebar:
     st.subheader("Your Documents")
@@ -113,22 +118,22 @@ with st.sidebar:
 # Main chat interface
 if st.session_state.processComplete:
     user_question = st.chat_input("Ask any question about your Document(s)...")
-   
+    
     if user_question:
-        st.session_state.chat_history.append(("user", "🧑‍💻", user_question)) # add question without waiting for answers
+        user_role = "User"
+        user_avatar = "🧑‍💻"
+        st.session_state.chat_history.append((user_role, user_avatar, user_question)) # add question without waiting for answers
+        display_message()
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
                     "question": user_question
                 })
-                st.session_state.chat_history.append(("Bot", "👽", response["answer"]))
+                st.session_state.chat_history.append(("Alien", "👽", response["answer"]))
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
 
-    # Display chat history
-    for role, avatar, message in st.session_state.chat_history:
-        with st.chat_message(role, avatar=avatar):
-            st.write(message)
+    display_message()
 
 # Display initial instructions
 else:
