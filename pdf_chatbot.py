@@ -14,7 +14,7 @@ os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # Page configuration
 st.set_page_config(page_title="Chat with PDF", page_icon=":alien:")
-st.title("Ask Friendly Alien - PDF chat 👽")
+st.title("Ask Your Friendly Alien - PDF chat 👽")
 
 # Initialize session state variables
 if "conversation" not in st.session_state:
