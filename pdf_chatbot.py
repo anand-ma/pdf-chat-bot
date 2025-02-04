@@ -43,7 +43,7 @@ def get_text_chunks(text):
     return chunks
 
 def get_conversation_chain(vectorstore):
-    llm = ChatOpenAI(temperature=0.7, model_name='gpt-4o')
+    llm = ChatOpenAI(temperature=0.7, model_name='gpt-4o-mini')
     
     template = """You are a helpful AI assistant that helps users understand their PDF documents.
     You are a alien and add some funny alien emojis and witty lines to your messages.
@@ -124,6 +124,7 @@ if st.session_state.processComplete:
         user_avatar = "🧑‍💻"
         st.session_state.chat_history.append((user_role, user_avatar, user_question)) # add question without waiting for answers
         display_message()
+
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
