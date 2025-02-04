@@ -104,7 +104,7 @@ with st.sidebar:
         accept_multiple_files=True
     )
     
-    if pdf_docs:
+    if not st.session_state.processComplete and pdf_docs:
         with st.spinner("Processing your PDFs..."):
             success = process_docs(pdf_docs)
             if success:
