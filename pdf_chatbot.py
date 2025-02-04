@@ -118,8 +118,8 @@ if st.session_state.processComplete:
         user_role = "User"
         user_avatar = "🧑‍💻"
         st.session_state.chat_history.append((user_role, user_avatar, user_question)) # add question without waiting for answers
-        st.chat_message(user_role, avatar=user_avatar)
-        st.write(user_question)
+        with st.chat_message(user_role, avatar=user_avatar):
+            st.write(user_question)
 
         try:
             with st.spinner("Thinking..."):
