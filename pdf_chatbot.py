@@ -9,6 +9,14 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 import os
 
+
+# To run locally:
+# 1. Install the required packages:
+#     pip install -r requirements.txt
+# 2. Run the Streamlit app:
+#     streamlit run pdf_chatbot.py
+
+
 # Set OpenAI API key from secrets
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
@@ -94,6 +102,12 @@ def process_docs(pdf_docs):
     except Exception as e:
         st.error(f"An error occurred during processing: {str(e)}")
         return False
+    
+def display_chat_history():
+    # Display chat history
+    for role, avatar, message in st.session_state.chat_history:
+        with st.chat_message(role, avatar=avatar):
+            st.write(message)
 
 # Sidebar for PDF upload
 with st.sidebar:
@@ -117,22 +131,25 @@ if st.session_state.processComplete:
     if user_question:
         user_role = "User"
         user_avatar = "🧑‍💻"
-        alien_role = "Alien"
-        alien_avatar = "👽"
+        st.session_state.chat_history.append((user_role, user_avatar, user_question)) # add question without waiting for answers
+        # events like text input will rerun the app, hence the session state to preserve chat history, we are displaying 
+        # the chat history and the last question asked by the user
+        display_chat_history() 
+
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
                     "question": user_question
                 })
-                st.session_state.chat_history.append((user_role, user_avatar, user_question)) # add question without waiting for answers
+                alien_role = "Alien"
+                alien_avatar = "👽"
                 st.session_state.chat_history.append((alien_role, alien_avatar, response["answer"]))
+                # we are write the message directly instead of calling display_chat_history() to 
+                # avoid displaying the last question twice
+                with st.chat_message(alien_role, avatar=alien_avatar):
+                    st.write(response["answer"])
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
-
-    # Display chat history
-    for role, avatar, message in st.session_state.chat_history:
-        with st.chat_message(role, avatar=avatar):
-            st.write(message)
 
 # Display initial instructions
 else:
