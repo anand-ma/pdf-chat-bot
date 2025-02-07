@@ -66,6 +66,8 @@ def get_conversation_chain(vectorstore):
     Question: {question}
     Helpful Answer:"""
 
+    # for some reason, {context} variable has to be injected for the prompt to work, {chat_history} variable works directly from the session state
+
     prompt = PromptTemplate(input_variables=['context', 'chat_history','question'], template=template)
     
     memory = ConversationBufferMemory(
@@ -141,7 +143,6 @@ if st.session_state.processComplete:
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
-                    "chat_history": st.session_state.chat_history,
                     "question": user_question
                 })
                 alien_role = "Alien"
@@ -154,6 +155,9 @@ if st.session_state.processComplete:
         except Exception as e:
             st.error(f"An error occurred during chat: {str(e)}")
 
+# Display initial instructions
+else:
+    st.write("👈 Upload your PDF(s) in the sidebar to get started!")
 # Display initial instructions
 else:
     st.write("👈 Upload your PDF(s) in the sidebar to get started!")
