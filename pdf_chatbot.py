@@ -158,6 +158,3 @@ if st.session_state.processComplete:
 # Display initial instructions
 else:
     st.write("👈 Upload your PDF(s) in the sidebar to get started!")
-# Display initial instructions
-else:
-    st.write("👈 Upload your PDF(s) in the sidebar to get started!")
