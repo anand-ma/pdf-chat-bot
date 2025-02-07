@@ -59,12 +59,14 @@ def get_conversation_chain(vectorstore):
     If you don't know the answer, just say that you don't know in a funny way, answer differently everytime, don't try to make up an answer.
     
     
-    {chat_history}
+    context: {context}
+
+    chat history: {chat_history}
     
     Question: {question}
     Helpful Answer:"""
 
-    prompt = PromptTemplate(input_variables=['chat_history', 'question'], template=template)
+    prompt = PromptTemplate(input_variables=['context', 'chat_history','question'], template=template)
     
     memory = ConversationBufferMemory(
         memory_key='chat_history',
@@ -139,6 +141,7 @@ if st.session_state.processComplete:
         try:
             with st.spinner("Thinking..."):
                 response = st.session_state.conversation({
+                    "chat_history": st.session_state.chat_history,
                     "question": user_question
                 })
                 alien_role = "Alien"
